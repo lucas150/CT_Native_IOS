@@ -21,6 +21,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate,UNUserNotificationCenterDe
         registerForPush()
         CleverTap.setDebugLevel(CleverTapLogLevel.debug.rawValue)
         CleverTap.sharedInstance()?.setInAppNotificationDelegate(self)
+        CleverTap.sharedInstance()?.enableDeviceNetworkInfoReporting(true)
+
         
         CleverTap.sharedInstance()?.initializeInbox(callback: ({ (success) in
                 let messageCount = CleverTap.sharedInstance()?.getInboxMessageCount()
@@ -64,7 +66,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,UNUserNotificationCenterDe
 
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: (UNNotificationPresentationOptions) -> Void) {
          CleverTap.sharedInstance()?.handleNotification(withData: notification.request.content.userInfo, openDeepLinksInForeground: false)
-        CleverTap.sharedInstance()?.recordNotificationViewedEvent(withData: notification.request.content.userInfo)
+//        CleverTap.sharedInstance()?.recordNotificationViewedEvent(withData: notification.request.content.userInfo)
 
          completionHandler([.badge, .sound, .alert])
     }
